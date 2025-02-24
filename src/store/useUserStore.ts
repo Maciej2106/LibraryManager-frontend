@@ -6,10 +6,17 @@ interface UserState {
     token: string | null;
     error: string | null;
     loading: boolean;
-    login: (userData: { libraryCardId: string; password: string }) => Promise<User | null>;
-    register: (userData: { email: string; password: string; name: string }) => Promise<User | null>;
+    login: (userData: {
+        libraryCardId: string;
+        password: string;
+    }) => Promise<User | null>;
+    register: (userData: {
+        email: string;
+        password: string;
+        name: string;
+    }) => Promise<User | null>;
     logout: () => void;
-    setUser: (user: User | null) => void; 
+    setUser: (user: User | null) => void;
 }
 
 export const useUserStore = create<UserState>()((set) => ({
@@ -17,7 +24,7 @@ export const useUserStore = create<UserState>()((set) => ({
     token: null,
     error: null,
     loading: false,
-    setUser: (user) => set({ user }), 
+    setUser: (user) => set({ user }),
     login: async (userData) => {
         set({ loading: true, error: null });
         try {
@@ -52,7 +59,7 @@ export const useUserStore = create<UserState>()((set) => ({
 
     register: async (userData) => {
         set({ loading: true, error: null });
-        console.log("Dane rejestracyjne wysyłane do backendu:", userData); 
+        console.log('Dane rejestracyjne wysyłane do backendu:', userData);
         try {
             const response = await fetch('http://localhost:3000/register', {
                 method: 'POST',
@@ -61,27 +68,27 @@ export const useUserStore = create<UserState>()((set) => ({
                 },
                 body: JSON.stringify(userData),
             });
-            console.log("Odpowiedź z backendu (cała):", response);
+            console.log('Odpowiedź z backendu (cała):', response);
             if (!response.ok) {
                 const errorData = await response.json();
-                console.error("Błąd rejestracji z backendu:", errorData); 
+                console.error('Błąd rejestracji z backendu:', errorData);
                 throw new Error(errorData.message || 'Błąd rejestracji');
-            };
-            const data = await response.json(); 
-            console.log("Dane użytkownika po rejestracji:", data); 
+            }
+            const data = await response.json();
+            console.log('Dane użytkownika po rejestracji:', data);
             set({ loading: false });
-            return data; 
+            return data;
         } catch (error: unknown) {
             console.error('Błąd logowania:', error);
-            if (error instanceof Error) { 
+            if (error instanceof Error) {
                 set({ error: error.message, loading: false });
             } else {
-            set({ error: 'An unknown error occurred', loading: false }); 
+                set({ error: 'An unknown error occurred', loading: false });
             }
             return null;
         }
     },
-    logout: () => { 
+    logout: () => {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
         set({ user: null, token: null, error: null, loading: false });

@@ -1,4 +1,4 @@
-import {create} from 'zustand';
+import { create } from 'zustand';
 import axios, { AxiosError } from 'axios';
 import { handleApiError } from '../utils/handleApiError';
 import { Book } from '../types';
@@ -8,19 +8,19 @@ interface BooksState {
     loading: boolean;
     error: string | null;
     fetchBooks: () => Promise<void>;
-    loadingBooks: boolean; 
-    errorBooks: string | null; 
+    loadingBooks: boolean;
+    errorBooks: string | null;
     addBook: (newBook: Omit<Book, 'id'>) => Promise<void>;
     editBook: (updatedBook: Book) => Promise<void>;
     deleteBook: (bookId: string) => Promise<void>;
-    setBooks: (books: Book[]) => void; 
+    setBooks: (books: Book[]) => void;
 }
 export const useBooksStore = create<BooksState>((set) => ({
     books: [],
     loading: true,
     error: null,
-    loadingBooks: false, 
-    errorBooks: null,   
+    loadingBooks: false,
+    errorBooks: null,
     fetchBooks: async () => {
         set({ loading: true, error: null });
         try {
@@ -34,30 +34,35 @@ export const useBooksStore = create<BooksState>((set) => ({
                 borrowedCopies: book.borrowedCopies || null, // Dodajemy borrowedCopies lub null
             }));
 
-        set({ books: booksWithYearAndCopies, loading: false });        
+            set({ books: booksWithYearAndCopies, loading: false });
         } catch (error) {
             const errorMessage = handleApiError(error as AxiosError);
-            set({ error: errorMessage, loading: false });            
+            set({ error: errorMessage, loading: false });
         }
-    },    
+    },
     addBook: async (newBook) => {
-    try {
-        const response = await axios.post('http://localhost:3000/books', newBook);
-        const addedBook = response.data;
+        try {
+            const response = await axios.post(
+                'http://localhost:3000/books',
+                newBook,
+            );
+            const addedBook = response.data;
 
-        set((state) => ({ 
-            books: [...state.books, addedBook],
-        }));
-
-    } catch (error) {
-        const errorMessage = handleApiError(error as AxiosError);
-        console.error(errorMessage);
-    }
-},
+            set((state) => ({
+                books: [...state.books, addedBook],
+            }));
+        } catch (error) {
+            const errorMessage = handleApiError(error as AxiosError);
+            console.error(errorMessage);
+        }
+    },
     editBook: async (updatedBook) => {
         try {
-            await axios.put(`http://localhost:3000/books/${updatedBook.id}`, updatedBook);
-            const response = await axios.get('http://localhost:3000/books'); 
+            await axios.put(
+                `http://localhost:3000/books/${updatedBook.id}`,
+                updatedBook,
+            );
+            const response = await axios.get('http://localhost:3000/books');
             set({ books: response.data });
         } catch (error) {
             const errorMessage = handleApiError(error as AxiosError);
@@ -67,12 +72,12 @@ export const useBooksStore = create<BooksState>((set) => ({
     deleteBook: async (bookId) => {
         try {
             await axios.delete(`http://localhost:3000/books/${bookId}`);
-            const response = await axios.get('http://localhost:3000/books'); 
+            const response = await axios.get('http://localhost:3000/books');
             set({ books: response.data });
         } catch (error) {
             const errorMessage = handleApiError(error as AxiosError);
             console.error(errorMessage);
         }
     },
-    setBooks: (books: Book[]) => set({ books }), 
+    setBooks: (books: Book[]) => set({ books }),
 }));

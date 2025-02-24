@@ -14,25 +14,24 @@ export const useLogsStore = create<LogsState>((set) => ({
     logs: [],
     loading: true,
     error: null,
-    fetchLogs: async () => {        
-        set({ loading: true, error: null });        
+    fetchLogs: async () => {
+        set({ loading: true, error: null });
         try {
             const token = localStorage.getItem('token');
-            if (!token) {  
-                throw new Error("Brak tokenu autoryzacyjnego.");
+            if (!token) {
+                throw new Error('Brak tokenu autoryzacyjnego.');
             }
             const response = await axios.get('http://localhost:3000/logs', {
                 headers: {
                     Authorization: `Bearer ${token}`, // Dodajemy token do nagłówka Authorization
                 },
-            });           
+            });
 
-            set({ logs: response.data, loading: false });            
-            
+            set({ logs: response.data, loading: false });
         } catch (error) {
-            const errorMessage = handleApiError(error as AxiosError); 
-            console.error("Błąd pobierania logów:", errorMessage, error); 
-            set({ error: errorMessage, loading: false });            
+            const errorMessage = handleApiError(error as AxiosError);
+            console.error('Błąd pobierania logów:', errorMessage, error);
+            set({ error: errorMessage, loading: false });
         }
     },
 }));
