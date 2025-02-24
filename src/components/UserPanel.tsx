@@ -79,9 +79,9 @@ export const UserPanel: React.FC<UserPanelProps> = ({
     };
 
     const renderRentals = (rentalsToRender: RentalWithBook[]) => {
-        if (loadingRentals) return <CircularProgress />; 
+        if (loadingRentals) return <CircularProgress />;
         if (errorRentals)
-            return <Typography color="error">{errorRentals}</Typography>; 
+            return <Typography color="error">{errorRentals}</Typography>;
         if (!rentalsToRender.length)
             return <Typography>Brak wypożyczeń w tym miesiącu.</Typography>;
 
@@ -96,7 +96,7 @@ export const UserPanel: React.FC<UserPanelProps> = ({
                             borderRadius: '4px',
                         }}
                     >
-                        {' '}                        
+                        {' '}
                         <Box
                             sx={{
                                 display: 'flex',
@@ -150,7 +150,7 @@ export const UserPanel: React.FC<UserPanelProps> = ({
                     )}
                 </Box>
                 <Box sx={{ flex: 1 }}>
-                    {' '}                    
+                    {' '}
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                         <FormControl>
                             <InputLabel id="month-label">Miesiąc</InputLabel>

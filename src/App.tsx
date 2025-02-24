@@ -15,14 +15,14 @@ export const App: React.FC = () => {
         setUser: setUserFromStore,
     } = useUserStore();
 
-    const setUser = (user: User | null) => setUserFromStore(user); 
+    const setUser = (user: User | null) => setUserFromStore(user);
 
     return (
         <Router>
             <Header />
             <AppRouter
-                user={user} 
-                setUser={setUser} 
+                user={user}
+                setUser={setUser}
                 login={login}
                 register={register}
                 loading={loading}

@@ -31,7 +31,7 @@ export const BooksPage: React.FC = () => {
     return (
         <div>
             {selectedBook ? (
-                <BookDetails book={selectedBook} />
+                <BookDetails />
             ) : (
                 <AvailableBooks />
             )}
