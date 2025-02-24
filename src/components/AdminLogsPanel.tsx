@@ -7,8 +7,11 @@ interface AdminLogsPanelProps {
     loading: boolean;
 }
 
-export const AdminLogsPanel: React.FC<AdminLogsPanelProps> = ({ logs, loading }) => {
-    const { error } = useLogsStore(); 
+export const AdminLogsPanel: React.FC<AdminLogsPanelProps> = ({
+    logs,
+    loading,
+}) => {
+    const { error } = useLogsStore();
 
     if (loading) {
         return <div>Ładowanie logów...</div>;

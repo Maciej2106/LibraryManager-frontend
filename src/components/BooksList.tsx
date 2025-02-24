@@ -7,14 +7,20 @@ interface BooksListProps {
     isLoggedIn: boolean;
 }
 
-export const BooksList: React.FC<BooksListProps> = ({ books, onBorrow, isLoggedIn }) => {
+export const BooksList: React.FC<BooksListProps> = ({
+    books,
+    onBorrow,
+    isLoggedIn,
+}) => {
     return (
         <ul>
-            {books.map(book => (
+            {books.map((book) => (
                 <li key={book.id}>
                     {book.title} - {book.author} - {book.availableCopies}
                     {isLoggedIn && ( // Przycisk "Wypożycz" jest widoczny tylko dla zalogowanych użytkowników
-                        <button onClick={() => onBorrow(book.id.toString())}>Wypożycz</button> 
+                        <button onClick={() => onBorrow(book.id.toString())}>
+                            Wypożycz
+                        </button>
                     )}
                 </li>
             ))}

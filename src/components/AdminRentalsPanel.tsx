@@ -8,7 +8,11 @@ interface AdminRentalsPanelProps {
     loading: boolean;
 }
 
-export const AdminRentalsPanel: React.FC<AdminRentalsPanelProps> = ({ rentals, books, loading }) => {
+export const AdminRentalsPanel: React.FC<AdminRentalsPanelProps> = ({
+    rentals,
+    books,
+    loading,
+}) => {
     const { returnBook } = useRentalsStore();
 
     const getBookTitle = (bookId: string) => {
@@ -46,7 +50,11 @@ export const AdminRentalsPanel: React.FC<AdminRentalsPanelProps> = ({ rentals, b
                             <td>{rental.status}</td>
                             <td>
                                 {rental.status !== 'Returned' ? (
-                                    <button onClick={() => returnBook(rental.id)}>Wymuś Zwrot</button>
+                                    <button
+                                        onClick={() => returnBook(rental.id)}
+                                    >
+                                        Wymuś Zwrot
+                                    </button>
                                 ) : null}
                             </td>
                         </tr>

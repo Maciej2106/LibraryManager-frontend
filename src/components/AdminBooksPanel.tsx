@@ -7,7 +7,10 @@ interface AdminBooksPanelProps {
     loading: boolean;
 }
 
-export const AdminBooksPanel: React.FC<AdminBooksPanelProps> = ({ books, loading }) => {
+export const AdminBooksPanel: React.FC<AdminBooksPanelProps> = ({
+    books,
+    loading,
+}) => {
     const { addBook, editBook, deleteBook, error } = useBooksStore();
     const [newBook, setNewBook] = useState<Omit<Book, 'id'>>({
         title: '',
@@ -15,12 +18,14 @@ export const AdminBooksPanel: React.FC<AdminBooksPanelProps> = ({ books, loading
         description: '',
         availableCopies: 0,
         borrowedCopies: 0,
-        year: 0, 
+        year: 0,
     });
 
     const [editingBook, setEditingBook] = useState<Book | null>(null);
-    const handleAddBookChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+    const handleAddBookChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+        const { name, value } = e.target;
 
         if (name === 'availableCopies' || name === 'year') {
             const newValue = parseInt(value);
@@ -30,8 +35,10 @@ export const AdminBooksPanel: React.FC<AdminBooksPanelProps> = ({ books, loading
             setNewBook({ ...newBook, [name]: value });
         }
     };
-    const handleEditBookChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+    const handleEditBookChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+        const { name, value } = e.target;
 
         if (name === 'availableCopies' || name === 'year') {
             const newValue = parseInt(value);
@@ -49,7 +56,14 @@ export const AdminBooksPanel: React.FC<AdminBooksPanelProps> = ({ books, loading
     const handleAddBookSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         addBook({ ...newBook, year: newBook.year });
-        setNewBook({ title: '', author: '', description: '', borrowedCopies: 0, availableCopies: 0, year: 0 });
+        setNewBook({
+            title: '',
+            author: '',
+            description: '',
+            borrowedCopies: 0,
+            availableCopies: 0,
+            year: 0,
+        });
     };
 
     const handleEditBookSubmit = (e: React.FormEvent) => {
@@ -58,7 +72,7 @@ export const AdminBooksPanel: React.FC<AdminBooksPanelProps> = ({ books, loading
             editBook(editingBook);
             setEditingBook(null);
         }
-    };   
+    };
 
     if (loading) {
         return <div>Ładowanie książek...</div>;
@@ -79,14 +93,16 @@ export const AdminBooksPanel: React.FC<AdminBooksPanelProps> = ({ books, loading
                     name="title"
                     placeholder="Tytuł"
                     value={newBook.title}
-                    onChange={handleAddBookChange} required
+                    onChange={handleAddBookChange}
+                    required
                 />
                 <input
                     type="text"
                     name="author"
                     placeholder="Autor"
                     value={newBook.author}
-                    onChange={handleAddBookChange} required
+                    onChange={handleAddBookChange}
+                    required
                 />
                 <textarea
                     name="description"
@@ -99,25 +115,31 @@ export const AdminBooksPanel: React.FC<AdminBooksPanelProps> = ({ books, loading
                     name="availableCopies"
                     placeholder="Dostępne kopie"
                     value={newBook.availableCopies || 0}
-                    onChange={handleAddBookChange} required
+                    onChange={handleAddBookChange}
+                    required
                 />
                 <input
                     type="number"
                     name="year"
                     placeholder="Rok wydania"
                     value={newBook.year || 0}
-                    onChange={handleAddBookChange} required 
-                /> 
+                    onChange={handleAddBookChange}
+                    required
+                />
                 <button type="submit">Dodaj</button>
             </form>
 
             <h3>Lista Książek</h3>
             <ul>
-                {books.map(book => (
+                {books.map((book) => (
                     <li key={book.id}>
-                        {book.title} - {book.author} - {book.year} 
-                        <button onClick={() => setEditingBook(book)}>Edytuj</button>
-                        <button onClick={() => deleteBook(book.id)}>Usuń</button>
+                        {book.title} - {book.author} - {book.year}
+                        <button onClick={() => setEditingBook(book)}>
+                            Edytuj
+                        </button>
+                        <button onClick={() => deleteBook(book.id)}>
+                            Usuń
+                        </button>
                     </li>
                 ))}
             </ul>
@@ -131,15 +153,17 @@ export const AdminBooksPanel: React.FC<AdminBooksPanelProps> = ({ books, loading
                             name="title"
                             placeholder="Tytuł"
                             value={editingBook.title}
-                            onChange={handleEditBookChange} required
+                            onChange={handleEditBookChange}
+                            required
                         />
                         <input
                             type="text"
                             name="author"
                             placeholder="Autor"
                             value={editingBook.author}
-                            onChange={handleEditBookChange} required
-                         />
+                            onChange={handleEditBookChange}
+                            required
+                        />
                         <textarea
                             name="description"
                             placeholder="Opis"
@@ -151,17 +175,21 @@ export const AdminBooksPanel: React.FC<AdminBooksPanelProps> = ({ books, loading
                             name="availableCopies"
                             placeholder="Dostępne kopie"
                             value={editingBook.availableCopies || 0}
-                            onChange={handleEditBookChange} required
+                            onChange={handleEditBookChange}
+                            required
                         />
                         <input
                             type="number"
                             name="year"
                             placeholder="Rok wydania"
                             value={editingBook.year || 0}
-                            onChange={handleEditBookChange} required
-                        /> 
+                            onChange={handleEditBookChange}
+                            required
+                        />
                         <button type="submit">Zapisz</button>
-                        <button onClick={() => setEditingBook(null)}>Anuluj</button>
+                        <button onClick={() => setEditingBook(null)}>
+                            Anuluj
+                        </button>
                     </form>
                 </div>
             )}
