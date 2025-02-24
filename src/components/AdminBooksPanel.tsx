@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Book } from '../types';
 import { useBooksStore } from '../store/useBooksStor';
+import { Box, Button, CircularProgress, Container, List, ListItem, ListItemText, Paper, TextField, Typography } from '@mui/material';
 
 interface AdminBooksPanelProps {
     books: Book[];
@@ -75,124 +76,162 @@ export const AdminBooksPanel: React.FC<AdminBooksPanelProps> = ({
     };
 
     if (loading) {
-        return <div>Ładowanie książek...</div>;
+        return (
+      <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Container>
+    );
     }
 
     if (error) {
-        return <div>Błąd: {error}</div>;
+        return <Typography color="error">Błąd: {error}</Typography>;
     }
 
     return (
-        <div>
-            <h2>Panel Zarządzania Książkami</h2>
+    <Container maxWidth="md" sx={{ mt: 4 }}>
+      <Typography variant="h5" gutterBottom>
+        Panel Zarządzania Książkami
+      </Typography>
 
-            <h3>Dodaj Książkę</h3>
-            <form onSubmit={handleAddBookSubmit}>
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Tytuł"
-                    value={newBook.title}
-                    onChange={handleAddBookChange}
-                    required
-                />
-                <input
-                    type="text"
-                    name="author"
-                    placeholder="Autor"
-                    value={newBook.author}
-                    onChange={handleAddBookChange}
-                    required
-                />
-                <textarea
-                    name="description"
-                    placeholder="Opis"
-                    value={newBook.description || ''}
-                    onChange={handleAddBookChange}
-                />
-                <input
-                    type="number"
-                    name="availableCopies"
-                    placeholder="Dostępne kopie"
-                    value={newBook.availableCopies || 0}
-                    onChange={handleAddBookChange}
-                    required
-                />
-                <input
-                    type="number"
-                    name="year"
-                    placeholder="Rok wydania"
-                    value={newBook.year || 0}
-                    onChange={handleAddBookChange}
-                    required
-                />
-                <button type="submit">Dodaj</button>
-            </form>
+      <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h6" gutterBottom>
+          Dodaj Książkę
+        </Typography>
+        <form onSubmit={handleAddBookSubmit}>
+          <TextField
+            label="Tytuł"
+            name="title"
+            value={newBook.title}
+            onChange={handleAddBookChange}
+            fullWidth
+            margin="normal"
+            required
+          />
+          <TextField
+            label="Autor"
+            name="author"
+            value={newBook.author}
+            onChange={handleAddBookChange}
+            fullWidth
+            margin="normal"
+            required
+          />
+          <TextField
+            label="Opis"
+            name="description"
+            value={newBook.description || ''}
+            onChange={handleAddBookChange}
+            fullWidth
+            margin="normal"
+            multiline
+          />
+          <TextField
+            label="Dostępne kopie"
+            type="number"
+            name="availableCopies"
+            value={newBook.availableCopies || 0}
+            onChange={handleAddBookChange}
+            fullWidth
+            margin="normal"
+            required
+          />
+          <TextField
+            label="Rok wydania"
+            type="number"
+            name="year"
+            value={newBook.year || ''}
+            onChange={handleAddBookChange}
+            fullWidth
+            margin="normal"
+            required
+          />
+          <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
+            Dodaj
+          </Button>
+        </form>
+      </Paper>
 
-            <h3>Lista Książek</h3>
-            <ul>
-                {books.map((book) => (
-                    <li key={book.id}>
-                        {book.title} - {book.author} - {book.year}
-                        <button onClick={() => setEditingBook(book)}>
-                            Edytuj
-                        </button>
-                        <button onClick={() => deleteBook(book.id)}>
-                            Usuń
-                        </button>
-                    </li>
-                ))}
-            </ul>
+      <Typography variant="h6" gutterBottom>
+        Lista Książek
+      </Typography>
+      <List>
+        {books.map((book) => (
+          <ListItem key={book.id} sx={{ borderBottom: '1px solid #eee' }}>
+            <ListItemText primary={`${book.title} - ${book.author} - ${book.year}`} />
+            <Button onClick={() => setEditingBook(book)} sx={{ ml: 2 }}>
+              Edytuj
+            </Button>
+            <Button onClick={() => deleteBook(book.id)} color="error" sx={{ ml: 1 }}>
+              Usuń
+            </Button>
+          </ListItem>
+        ))}
+      </List>
 
-            {editingBook && (
-                <div>
-                    <h3>Edytuj Książkę</h3>
-                    <form onSubmit={handleEditBookSubmit}>
-                        <input
-                            type="text"
-                            name="title"
-                            placeholder="Tytuł"
-                            value={editingBook.title}
-                            onChange={handleEditBookChange}
-                            required
-                        />
-                        <input
-                            type="text"
-                            name="author"
-                            placeholder="Autor"
-                            value={editingBook.author}
-                            onChange={handleEditBookChange}
-                            required
-                        />
-                        <textarea
-                            name="description"
-                            placeholder="Opis"
-                            value={editingBook.description || ''}
-                            onChange={handleEditBookChange}
-                        />
-                        <input
-                            type="number"
-                            name="availableCopies"
-                            placeholder="Dostępne kopie"
-                            value={editingBook.availableCopies || 0}
-                            onChange={handleEditBookChange}
-                            required
-                        />
-                        <input
-                            type="number"
-                            name="year"
-                            placeholder="Rok wydania"
-                            value={editingBook.year || 0}
-                            onChange={handleEditBookChange}
-                            required
-                        />
-                        <button type="submit">Zapisz</button>
-                        <button onClick={() => setEditingBook(null)}>
-                            Anuluj
-                        </button>
-                    </form>
-                </div>
-            )}
-        </div>
-    );
+      {editingBook && (
+        <Paper elevation={3} sx={{ p: 3, mt: 3 }}>
+          <Typography variant="h6" gutterBottom>
+            Edytuj Książkę
+          </Typography>
+          <form onSubmit={handleEditBookSubmit}>
+            <TextField
+              label="Tytuł"
+              name="title"
+              value={editingBook.title}
+              onChange={handleEditBookChange}
+              fullWidth
+              margin="normal"
+              required
+            />
+            <TextField
+              label="Autor"
+              name="author"
+              value={editingBook.author}
+              onChange={handleEditBookChange}
+              fullWidth
+              margin="normal"
+              required
+            />
+            <TextField
+              label="Opis"
+              name="description"
+              value={editingBook.description || ''}
+              onChange={handleEditBookChange}
+              fullWidth
+              margin="normal"
+              multiline
+            />
+            <TextField
+              label="Dostępne kopie"
+              type="number"
+              name="availableCopies"
+              value={editingBook.availableCopies || 0}
+              onChange={handleEditBookChange}
+              fullWidth
+              margin="normal"
+              required
+            />
+            <TextField
+              label="Rok wydania"
+              type="number"
+              name="year"
+              value={editingBook.year || 0}
+              onChange={handleEditBookChange}
+              fullWidth
+              margin="normal"
+              required
+            />
+            <Box sx={{ mt: 2 }}>
+              <Button type="submit" variant="contained" color="primary" sx={{ mr: 1 }}>
+                Zapisz
+              </Button>
+              <Button onClick={() => setEditingBook(null)} variant="outlined">
+                Anuluj
+              </Button>
+            </Box>
+          </form>
+        </Paper>
+      )}
+    </Container>
+  );
 };

@@ -45,14 +45,14 @@ export const HomePage: React.FC = () => {
                 <Box
                     display="flex"
                     flexDirection={{ xs: 'column', md: 'row' }}
-                    gap={4}
-                    sx={{ mb: 4 }}
+                    gap={2}
+                    sx={{ mb: 2 }}
                 >
                     <Box flex={1}>
                         <Paper
                             elevation={3}
                             sx={{
-                                p: 4,
+                                p: 2,
                                 height: '100%',
                                 bgcolor: 'background.paper',
                             }}
@@ -90,7 +90,7 @@ export const HomePage: React.FC = () => {
                         <Paper
                             elevation={3}
                             sx={{
-                                p: 4,
+                                p: 2,
                                 height: '100%',
                                 bgcolor: 'background.paper',
                             }}
@@ -117,8 +117,7 @@ export const HomePage: React.FC = () => {
                                 zarejestrować i zalogować. Następnie możesz
                                 przeglądać katalog i dodawać wybrane tytuły do
                                 koszyka. Po złożeniu zamówienia, książka
-                                zostanie przygotowana do odbioru w wybranej
-                                przez Ciebie placówce.
+                                zostanie przygotowana do odbioru.
                             </Typography>
                         </Paper>
                     </Box>
