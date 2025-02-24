@@ -12,6 +12,7 @@
         "prepare": "husky install"
     },
     "dependencies": {
+        "@mui/icons-material": "^6.4.5",
         "@mui/material": "^6.4.5",
         "axios": "^1.7.9",
         "react": "^19.0.0",
