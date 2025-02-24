@@ -28,13 +28,5 @@ export const BooksPage: React.FC = () => {
         return <div>Błąd: {error}</div>;
     }
 
-    return (
-        <div>
-            {selectedBook ? (
-                <BookDetails />
-            ) : (
-                <AvailableBooks />
-            )}
-        </div>
-    );
+    return <div>{selectedBook ? <BookDetails /> : <AvailableBooks />}</div>;
 };

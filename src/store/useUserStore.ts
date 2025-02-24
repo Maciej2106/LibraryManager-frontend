@@ -15,8 +15,9 @@ interface UserState {
         password: string;
         name: string;
     }) => Promise<User | null>;
-    logout: () => void;
     setUser: (user: User | null) => void;
+    deleteUser: (userId: string | undefined) => Promise<void>;
+     logout: () => void;
 }
 
 export const useUserStore = create<UserState>()((set) => ({
@@ -25,6 +26,22 @@ export const useUserStore = create<UserState>()((set) => ({
     error: null,
     loading: false,
     setUser: (user) => set({ user }),
+    deleteUser: async (userId) => {
+    if (userId) {
+      try {
+        const response = await fetch(`http://localhost:3000/users/${userId}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        set({ user: null });
+      } catch (error) {
+        console.error('Błąd usuwania użytkownika:', error);
+        throw error;
+      }
+    }
+    },
     login: async (userData) => {
         set({ loading: true, error: null });
         try {
