@@ -134,17 +134,6 @@ export const UserPanel: React.FC<UserPanelProps> = ({
         setOpenModal(true);
     };
 
-    // const confirmDelete = async () => {
-    //     try {
-    //         await deleteUser(currentUser?.id);
-    //         logout();
-    //         navigate('/');
-    //         setOpenModal(false);
-    //     } catch (error) {
-    //         console.error('Błąd usuwania konta:', error);
-    //     }
-    // };
-
     const confirmDelete = async () => {
         try {
             console.log('confirmDelete wywołane');

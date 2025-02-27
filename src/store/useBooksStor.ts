@@ -3,7 +3,7 @@ import axios, { AxiosError } from 'axios';
 import { handleApiError } from '../utils/handleApiError';
 import { Book } from '../types';
 
-interface BooksState {
+export interface BooksState {
     books: Book[];
     loading: boolean;
     error: string | null;

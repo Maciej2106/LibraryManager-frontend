@@ -72,18 +72,17 @@ export const useUserStore = create<UserState>()((set) => ({
             console.error('Błąd logowania:', error);
             if (error instanceof Error) {
                 set({ error: error.message, loading: false });
-                throw error; // Odrzuć obietnicę
+                throw error; 
             } else {
                 set({ error: 'An unknown error occurred', loading: false });
-                throw new Error('An unknown error occurred'); // Odrzuć obietnicę
+                throw new Error('An unknown error occurred'); 
             }
             return null;
         }
     },
 
     register: async (userData) => {
-        set({ loading: true, error: null });
-        console.log('Dane rejestracyjne wysyłane do backendu:', userData);
+        set({ loading: true, error: null });        
         try {
             const response = await fetch('http://localhost:3000/register', {
                 method: 'POST',
@@ -91,25 +90,23 @@ export const useUserStore = create<UserState>()((set) => ({
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(userData),
-            });
-            console.log('Odpowiedź z backendu (cała):', response);
+            });            
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error('Błąd rejestracji z backendu:', errorData);
                 throw new Error(errorData.message || 'Błąd rejestracji');
             }
             const data = await response.json();
-            console.log('Dane użytkownika po rejestracji:', data);
-            set({ loading: false });
-            return data;
+            
+            set({ loading: false });            return data;
         } catch (error: unknown) {
             console.error('Błąd logowania:', error);
             if (error instanceof Error) {
                 set({ error: error.message, loading: false });
-                throw error; // Odrzuć obietnicę
+                throw error; 
             } else {
                 set({ error: 'An unknown error occurred', loading: false });
-                throw new Error('An unknown error occurred'); // Odrzuć obietnicę
+                throw new Error('An unknown error occurred'); 
             }
             return null;
         }
