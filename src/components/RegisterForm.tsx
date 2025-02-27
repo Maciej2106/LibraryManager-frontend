@@ -18,6 +18,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ register }) => {
         register: reactRegister,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm<RegisterData>();
 
     const onSubmit = async (data: RegisterData) => {
@@ -27,6 +28,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ register }) => {
             const user = await register(data);
             if (user) {
                 setRegistrationSuccess(true);
+                reset();
             } else {
                 setRegistrationError('Rejestracja nieudana.');
             }
@@ -76,6 +78,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ register }) => {
                 gap: 2,
                 maxWidth: 400,
                 margin: 'auto',
+                marginTop: 4,
             }}
         >
             <TextField

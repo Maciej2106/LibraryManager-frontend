@@ -17,7 +17,7 @@ interface UserState {
     }) => Promise<User | null>;
     setUser: (user: User | null) => void;
     deleteUser: (userId: string | undefined) => Promise<void>;
-     logout: () => void;
+    logout: () => void;
 }
 
 export const useUserStore = create<UserState>()((set) => ({
@@ -26,22 +26,27 @@ export const useUserStore = create<UserState>()((set) => ({
     error: null,
     loading: false,
     setUser: (user) => set({ user }),
+
     deleteUser: async (userId) => {
-    if (userId) {
-      try {
-        const response = await fetch(`http://localhost:3000/users/${userId}`, {
-          method: 'DELETE',
-        });
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        if (userId) {
+            try {
+                const response = await fetch(
+                    `http://localhost:3000/users/${userId}`,
+                    {
+                        method: 'DELETE',
+                    },
+                );
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                set({ user: null });
+            } catch (error) {
+                console.error('Błąd usuwania użytkownika:', error);
+                throw error;
+            }
         }
-        set({ user: null });
-      } catch (error) {
-        console.error('Błąd usuwania użytkownika:', error);
-        throw error;
-      }
-    }
     },
+
     login: async (userData) => {
         set({ loading: true, error: null });
         try {
@@ -67,8 +72,10 @@ export const useUserStore = create<UserState>()((set) => ({
             console.error('Błąd logowania:', error);
             if (error instanceof Error) {
                 set({ error: error.message, loading: false });
+                throw error; // Odrzuć obietnicę
             } else {
                 set({ error: 'An unknown error occurred', loading: false });
+                throw new Error('An unknown error occurred'); // Odrzuć obietnicę
             }
             return null;
         }
@@ -99,8 +106,10 @@ export const useUserStore = create<UserState>()((set) => ({
             console.error('Błąd logowania:', error);
             if (error instanceof Error) {
                 set({ error: error.message, loading: false });
+                throw error; // Odrzuć obietnicę
             } else {
                 set({ error: 'An unknown error occurred', loading: false });
+                throw new Error('An unknown error occurred'); // Odrzuć obietnicę
             }
             return null;
         }

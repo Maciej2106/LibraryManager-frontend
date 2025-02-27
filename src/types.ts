@@ -2,8 +2,6 @@ import { FieldError } from 'react-hook-form';
 
 export interface User {
     id: string;
-    firstName: string;
-    lastName: string;
     name: string;
     email: string;
     libraryCardId: string;

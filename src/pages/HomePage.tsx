@@ -115,8 +115,8 @@ export const HomePage: React.FC = () => {
                             >
                                 Aby wypożyczyć książkę, wystarczy się
                                 zarejestrować i zalogować. Następnie możesz
-                                przeglądać katalog i dodawać wybrane tytuły do
-                                koszyka. Po złożeniu zamówienia, książka
+                                przeglądać katalog i wybierać tytuły do
+                                wypożyczenia. Po złożeniu zamówienia, książka
                                 zostanie przygotowana do odbioru.
                             </Typography>
                         </Paper>

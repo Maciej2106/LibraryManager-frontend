@@ -31,14 +31,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({
     } = useForm<FormData>();
 
     const onSubmit = async (data: FormData) => {
-        // Zmieniamy typ na FormData
-        setLoginError(null); // Resetujemy błąd logowania
+        setLoginError(null);
         try {
             const loggedInUser = await onLogin(data);
             if (loggedInUser) {
                 setUser(loggedInUser);
 
-                // Dodajemy sprawdzenie roli i odpowiednie przekierowanie
                 if (loggedInUser.role === 'ADMIN') {
                     navigate('/admin');
                 } else {
@@ -48,8 +46,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({
                 setLoginError('Nieprawidłowe dane logowania.');
             }
         } catch (error) {
-            setLoginError('Wystąpił błąd podczas logowania.');
             console.error('Błąd logowania:', error);
+            setLoginError('Wystąpił błąd podczas logowania.');
+            console.log('Stan loginError:', 'Wystąpił błąd podczas logowania.');
         }
     };
 
@@ -65,6 +64,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
                 gap: 2,
                 maxWidth: 400,
                 margin: 'auto',
+                marginTop: 4,
                 padding: 3,
                 borderRadius: 2,
                 boxShadow: 1,
