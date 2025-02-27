@@ -23,7 +23,7 @@ export const useLogsStore = create<LogsState>((set) => ({
             }
             const response = await axios.get('http://localhost:3000/logs', {
                 headers: {
-                    Authorization: `Bearer ${token}`, 
+                    Authorization: `Bearer ${token}`,
                 },
             });
 

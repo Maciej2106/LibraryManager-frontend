@@ -72,17 +72,17 @@ export const useUserStore = create<UserState>()((set) => ({
             console.error('Błąd logowania:', error);
             if (error instanceof Error) {
                 set({ error: error.message, loading: false });
-                throw error; 
+                throw error;
             } else {
                 set({ error: 'An unknown error occurred', loading: false });
-                throw new Error('An unknown error occurred'); 
+                throw new Error('An unknown error occurred');
             }
             return null;
         }
     },
 
     register: async (userData) => {
-        set({ loading: true, error: null });        
+        set({ loading: true, error: null });
         try {
             const response = await fetch('http://localhost:3000/register', {
                 method: 'POST',
@@ -90,23 +90,24 @@ export const useUserStore = create<UserState>()((set) => ({
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(userData),
-            });            
+            });
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error('Błąd rejestracji z backendu:', errorData);
                 throw new Error(errorData.message || 'Błąd rejestracji');
             }
             const data = await response.json();
-            
-            set({ loading: false });            return data;
+
+            set({ loading: false });
+            return data;
         } catch (error: unknown) {
             console.error('Błąd logowania:', error);
             if (error instanceof Error) {
                 set({ error: error.message, loading: false });
-                throw error; 
+                throw error;
             } else {
                 set({ error: 'An unknown error occurred', loading: false });
-                throw new Error('An unknown error occurred'); 
+                throw new Error('An unknown error occurred');
             }
             return null;
         }

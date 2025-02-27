@@ -12,7 +12,7 @@ import {
     Box,
     CircularProgress,
     Alert,
-    Modal, 
+    Modal,
 } from '@mui/material';
 import { useBooksStore } from '../store/useBooksStor';
 import { useUserStore } from '../store/useUserStore';
@@ -24,12 +24,12 @@ export const AvailableBooks = () => {
     const { user } = useUserStore();
     const { borrowBook } = useRentalsStore();
     const [openModal, setOpenModal] = useState(false); // Stan modala
-    const [borrowedBookTitle, setBorrowedBookTitle] = useState(''); 
+    const [borrowedBookTitle, setBorrowedBookTitle] = useState('');
 
     const handleBorrow = async (bookId: string, bookTitle: string) => {
         try {
             await borrowBook(bookId);
-            setBorrowedBookTitle(bookTitle); 
+            setBorrowedBookTitle(bookTitle);
             setOpenModal(true); // Otwórz modal
         } catch (error) {
             console.error('Błąd wypożyczenia książki:', error);
@@ -121,7 +121,7 @@ export const AvailableBooks = () => {
                                                             book.id,
                                                             book.title,
                                                         )
-                                                    } 
+                                                    }
                                                 >
                                                     Wypożycz
                                                 </Button>

@@ -83,14 +83,12 @@ describe('useRentalsStore', () => {
             .reply(200);
 
         await act(async () => {
-            //console.log('Test: rentalId:', mockRental.id); // Dodaj log
             await useRentalsStore.getState().returnBook(mockRental.id);
         });
 
         const updatedRental = useRentalsStore
             .getState()
             .rentals.find((r) => r.id === mockRental.id);
-        //console.log('Test: updatedRental:', updatedRental); // Dodaj log
         expect(updatedRental?.status).toEqual('Returned');
         expect(useBooksStore.getState().books[0].availableCopies).toEqual(6);
     });

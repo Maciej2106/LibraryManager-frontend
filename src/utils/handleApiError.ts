@@ -8,11 +8,11 @@ export const handleApiError = (error: AxiosError): string => {
             typeof error.response.data === 'object' &&
             error.response.data !== null &&
             'message' in error.response.data
-                ? (error.response.data as ApiErrorResponse) 
-                : { message: 'Nieznany błąd' }; 
+                ? (error.response.data as ApiErrorResponse)
+                : { message: 'Nieznany błąd' };
 
         if (status === 400) {
-            return data.message || 'Nieprawidłowe dane wejściowe.'; 
+            return data.message || 'Nieprawidłowe dane wejściowe.';
         } else if (status === 401) {
             return data.message || 'Brak autoryzacji. Zaloguj się ponownie.';
         } else if (status === 403) {

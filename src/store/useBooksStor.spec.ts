@@ -25,17 +25,17 @@ describe('useBooksStore', () => {
                 author: 'Author 1',
                 year: 2020,
                 availableCopies: 5,
-                borrowedCopies: 0,
-                description: 'Description 1'
+                borrowedCopies: null,
+                description: 'Description 1',
             },
-            { 
+            {
                 id: '2',
                 title: 'Book 2',
                 author: 'Author 2',
                 year: 2021,
                 availableCopies: 3,
                 borrowedCopies: 2,
-                description: 'Description 2'
+                description: 'Description 2',
             },
         ];
         mockAxios.onGet('http://localhost:3000/books').reply(200, mockBooks);
@@ -48,12 +48,14 @@ describe('useBooksStore', () => {
     });
 
     it('should handle error during fetch books', async () => {
-        mockAxios.onGet('http://localhost:3000/books').reply(500, { message: 'Internal Server Error' });
+        mockAxios
+            .onGet('http://localhost:3000/books')
+            .reply(500, { message: 'Internal Server Error' });
 
         await store.fetchBooks();
 
         expect(useBooksStore.getState().loading).toBe(false);
-        expect(useBooksStore.getState().error).toBe('Wystąpił błąd serwera.');
+        expect(useBooksStore.getState().error).toBe('Internal Server Error');
     });
 
     it('should add book correctly', async () => {
@@ -63,10 +65,12 @@ describe('useBooksStore', () => {
             year: 2022,
             availableCopies: 2,
             borrowedCopies: 0,
-            description: 'New description'
+            description: 'New description',
         };
         const addedBook: Book = { id: '3', ...newBook };
-        mockAxios.onPost('http://localhost:3000/books', newBook).reply(201, addedBook);
+        mockAxios
+            .onPost('http://localhost:3000/books', newBook)
+            .reply(201, addedBook);
         mockAxios.onGet('http://localhost:3000/books').reply(200, [addedBook]);
 
         await store.addBook(newBook);
@@ -82,7 +86,7 @@ describe('useBooksStore', () => {
             year: 2020,
             availableCopies: 5,
             borrowedCopies: 0,
-            description: 'Description 1'
+            description: 'Description 1',
         };
         const updatedBook: Book = {
             id: '1',
@@ -91,10 +95,14 @@ describe('useBooksStore', () => {
             year: 2023,
             availableCopies: 10,
             borrowedCopies: 0,
-            description: 'Description 2'
+            description: 'Description 2',
         };
-        mockAxios.onPut(`http://localhost:3000/books/${initialBook.id}`, updatedBook).reply(200);
-        mockAxios.onGet('http://localhost:3000/books').reply(200, [updatedBook]);
+        mockAxios
+            .onPut(`http://localhost:3000/books/${initialBook.id}`, updatedBook)
+            .reply(200);
+        mockAxios
+            .onGet('http://localhost:3000/books')
+            .reply(200, [updatedBook]);
 
         useBooksStore.setState({ books: [initialBook] });
         await store.editBook(updatedBook);
@@ -107,11 +115,14 @@ describe('useBooksStore', () => {
             id: '1',
             title: 'Book to Delete',
             author: 'Author to Delete',
-            year: 2020, availableCopies: 5,
+            year: 2020,
+            availableCopies: 5,
             borrowedCopies: 0,
-            description: 'description to delete'
+            description: 'description to delete',
         };
-        mockAxios.onDelete(`http://localhost:3000/books/${initialBook.id}`).reply(200);
+        mockAxios
+            .onDelete(`http://localhost:3000/books/${initialBook.id}`)
+            .reply(200);
         mockAxios.onGet('http://localhost:3000/books').reply(200, []);
 
         useBooksStore.setState({ books: [initialBook] });
@@ -129,16 +140,16 @@ describe('useBooksStore', () => {
                 year: 2022,
                 availableCopies: 4,
                 borrowedCopies: 1,
-                description: 'Description 1'
+                description: 'Description 1',
             },
-            { 
+            {
                 id: '4',
                 title: 'Book 4',
                 author: 'Author 4',
                 year: 2023,
                 availableCopies: 6,
                 borrowedCopies: 0,
-                description: 'Description 2'
+                description: 'Description 2',
             },
         ];
 

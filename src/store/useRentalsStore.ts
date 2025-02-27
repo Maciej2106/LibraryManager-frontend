@@ -143,7 +143,7 @@ export const useRentalsStore = create<RentalsState>((set, get) => ({
             );
             setBooks(updatedBooks);
         } catch (error) {
-            console.error('Błąd podczas wypożyczania książki:', error); // Logowanie błędu
+            console.error('Błąd podczas wypożyczania książki:', error);
             const errorMessage = axios.isAxiosError(error)
                 ? handleApiError(error)
                 : 'Wystąpił nieznany błąd podczas wypożyczania książki.';
